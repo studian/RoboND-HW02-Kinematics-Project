@@ -1,8 +1,12 @@
 [//]: # (Image References)
 
-[image1]: ./results/misc1.png
-[image2]: ./results/misc2.png
-[image3]: ./results/misc3.png
+[image10]: ./results/inverse_kinematics.launch.JPG
+[image11]: ./results/target_description.launch.JPG
+[image12]: ./results/init_v.JPG
+[image13]: ./results/Init_Variables.JPG
+[image14]: ./results/sll_step.jpg
+[image15]: ./results/ros_error.png
+
 [image4]: ./results/image-1.png
 [image5]: ./results/codecogseqn-3.gif
 [image6]: ./results/codecogseqn-2.gif
@@ -10,12 +14,6 @@
 [image8]: ./results/DH_config.jpg
 [image9]: ./results/eq1.png
 
-[image10]: ./results/inverse_kinematics.launch.JPG
-[image11]: ./results/target_description.launch.JPG
-[image12]: ./results/init_v.JPG
-[image13]: ./results/Init_Variables.JPG
-[image14]: ./results/sll_step.jpg
-[image15]: ./results/ros_error.png
 
 
 
