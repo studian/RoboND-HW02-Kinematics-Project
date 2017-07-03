@@ -219,3 +219,10 @@ alpha, beta, gamma = tf.transformations.euler_from_matrix(np.array(R3_6).astype(
 ### Robotic arm - Pick & Place : Demo
 ![alt text][image14]
 * Here's a [link to my video result](./results/RoboND-Kinematics-Project-Result(10x_encoding).avi)
+
+# Discussion
+## Problems encountered and Outlook
+* I am new for Linux VM and ROS, this project is quite interesting.
+	- First of all, I will try to real machine, but I cannot open the same environment of the simulation of VM machine.
+* Sometimes, I cannot grap the object, I don't know why it happend.
+* The IK calculating speed is quite slow using current method. 
