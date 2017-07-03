@@ -14,6 +14,7 @@
 [image11]: ./results/target_description.launch.JPG
 [image12]: ./results/init_v.JPG
 [image13]: ./results/Init_Variables.JPG
+[image14]: ./results/sll_step.jpg
 
 
 ---
@@ -215,4 +216,6 @@ theta2=atan2(S1,C1)
 alpha, beta, gamma = tf.transformations.euler_from_matrix(np.array(R3_6).astype(np.float64), "ryzy")
 ```
 
+### Robotic arm - Pick & Place : Demo
+![alt text][image14]
 * Here's a [link to my video result](./results/RoboND-Kinematics-Project-Result(10x_encoding).avi)
