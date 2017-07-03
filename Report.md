@@ -93,7 +93,8 @@ $ rosrun kuka_arm IK_server.py
 
 # Kinematic Analysis
 ### Building the Transform matrices 
-The first step was to create a DH parameters table, the DH parameters table will help us in building the matrices to calculate the individual transforms between the links. The DH parameters table is shown below, the diagram used to calculate the DH paramters is shown below the table:
+* The first step was to create a DH parameters table, the DH parameters table will help us in building the matrices to calculate the individual transforms between the links. 
+* The DH parameters table is shown below, the diagram used to calculate the DH paramters is shown below the table:
 
 Joint | alpha | a | d | theta
 --- | --- | --- | --- | ---
@@ -107,17 +108,17 @@ Gripper | 0 | 0 | 0.303| 0
 
 ![alt text][image8]
 
-Using this table we were able to construct the individual transform matrices, which are shown below:
+* Using this table we were able to construct the individual transform matrices, which are shown below:
 
 ![alt text][image13]
 
-Then, using them we can calculate the total transform between the base link and the end-effector which is denoted by the variable T0_7 and is shown below.
+* Then, using them we can calculate the total transform between the base link and the end-effector which is denoted by the variable T0_7 and is shown below.
 
 ```python
 T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
 ```
 
-Which can be simplified to be written in terms of the gripper orientation (pitch, roll and yaw) and its position (px, py, pz)
+* Which can be simplified to be written in terms of the gripper orientation (pitch, roll and yaw) and its position (px, py, pz)
 
 **T0_7=** Matrix([  
 [cos(pitch)\*cos(yaw)                               , -sin(yaw)\*cos(pitch                                , sin(pitch)            , px],  
@@ -125,17 +126,21 @@ Which can be simplified to be written in terms of the gripper orientation (pitch
 [-sin(pitch)\*cos(roll)\*cos(yaw)+sin(roll)\*sin(yaw), sin(pitch)\*sin(yaw)\*cos(roll)+sin(roll)\*cos(yaw), cos(pitch)\*cos(roll) , pz],  
 [0                                                   , 0                                                  , 0                     , 1 ])  
 
-Note that it is a simple multiplication of the matrices going from each link from the base to the gripper (the end-effector)
+* Note that it is a simple multiplication of the matrices going from each link from the base to the gripper (the end-effector)
 
-Also note that this matrices are calculated in a functions called `setupvariables()` they are then called on the function `IK_server` which is called whenever the program runs. This is done to increase performance as the program was building the transformation matrices every run of the main loop.
+* Also note that this matrices are calculated in a functions called `setupvariables()` they are then called on the function `IK_server` which is called whenever the program runs. 
+* This is done to increase performance as the program was building the transformation matrices every run of the main loop.
 
 ## Calculating the joint angles
-An inverse kinematic problem can be divided into two, the first part is determining the postion of the end-effector this is done by simply calculating the angles for every joint **before** the wrist, and the orientation problem which is solved by calculating the angles for every joint **after** the wrist
-
-The wrist was determined to be in link 3 as joints 4, 5 and 6 are what give the enf-effector its orientation.
+* An inverse kinematic problem can be divided into two, 
+	- the first part is determining the postion of the end-effector this is done by simply calculating the angles for every joint **before** the wrist, 
+	- and the orientation problem which is solved by calculating the angles for every joint **after** the wrist
+* The wrist was determined to be in link 3 as joints 4, 5 and 6 are what give the enf-effector its orientation.
 
 ### Inverse Position Kinematic Problem
-As mentioned before to solve for the position we would need to find the angles for joints 1, 2 and 3. Luckily the end-effector position and orientation are known. Given these parameters, teh calculation of the wrist center and its x,y and z coordinates becomes trivial, and all that must be done is perform the calculations shown below
+* As mentioned before to solve for the position we would need to find the angles for joints 1, 2 and 3. 
+* Luckily the end-effector position and orientation are known. 
+* Given these parameters, teh calculation of the wrist center and its x,y and z coordinates becomes trivial, and all that must be done is perform the calculations shown below
 
 ```python
 px = req.poses[x].position.x
@@ -155,15 +160,19 @@ wy = (py - (d6 + d7) * Rrpy[1,0]).subs(s)
 wz = (pz - (d6 + d7) * Rrpy[2,0]).subs(s)
 ```
 
-Where `Rrpy` is calculated by performing a rotation matrix along each axis by the given roll, pitch and yawn angles, and `d6` is the length between the end-effector and link 3. Now that we know the wrist coordinates we can start calculating the angles. To calculate the angles geometry was heavily used, to better understand how the angles were positioned the diagram below was used
+* Where `Rrpy` is calculated by performing a rotation matrix along each axis by the given roll, pitch and yawn angles, and `d6` is the length between the end-effector and link 3. 
+* Now that we know the wrist coordinates we can start calculating the angles. 
+* To calculate the angles geometry was heavily used, to better understand how the angles were positioned the diagram below was used
 
 ![alt text][image7]
 
-Thanks to Guangwei Wang (gwwang in Slack) for this image.
+* Thanks to Guangwei Wang (gwwang in Slack) for this image.
 
-The first angle to be calculated is theta 1 which as shown in the figure below is nothing more than the arctan of the y and x coordinates of the wrist.
+* The first angle to be calculated is theta 1 which as shown in the figure below is nothing more than the arctan of the y and x coordinates of the wrist.
 
-Joint angles 2 and 3 are far trickier. To calculate the angle of joint 3 we have to acount for the extra angle caused by the second joint which creates and extra angle. However, we can easily calculate the extra angle and the new x and z coordinates of the wrist using the equations below
+* Joint angles 2 and 3 are far trickier. 
+* To calculate the angle of joint 3 we have to acount for the extra angle caused by the second joint which creates and extra angle. 
+* However, we can easily calculate the extra angle and the new x and z coordinates of the wrist using the equations below
 
 ```python
 xtraangle = atan2(wz-1.94645, wx)
@@ -172,14 +181,15 @@ wz = wz+0.054*cos(extraangle)
 wxdist = sqrt(wy*wy+wx*wx)
 ```
 
-The last line calculates the distance between the wrist center and the new origin. Then using cosine law we find D and with D calculate the third joint angle.
+* The last line calculates the distance between the wrist center and the new origin. 
+* Then using cosine law we find D and with D calculate the third joint angle.
 
 ```python
 D=(wxdist*wxdist + wzdist*wzdist - l1*l1-l2*l2)/(2*l1*l2)
 theta3 = atan2(-sqrt(1-D*D),D
 ```
 
-With the third joint angle we can then calculate the second joint angle given by
+* With the third joint angle we can then calculate the second joint angle given by
 
 ```python
 S1=((l1+l2*cos(theta3))*wzdist-l2*sin(theta3)*wxdist) / (wxdist*wxdist + wzdist*wzdist)
@@ -188,9 +198,10 @@ theta2=atan2(S1,C1)
 ```
 
 ### Inverse Orientation Kinematics
-To solve for the orientation of the end-effector we needto calculate the rotation between link 0 and link 6. This rotation is nothing more than the rotation from the base link to link 3 multiplied with the Rrpy that we calculated earlier.
+* To solve for the orientation of the end-effector we needto calculate the rotation between link 0 and link 6. 
+* This rotation is nothing more than the rotation from the base link to link 3 multiplied with the Rrpy that we calculated earlier.
 
-After we obtain this rotation we can apply the following formulas.
+* After we obtain this rotation we can apply the following formulas.
 
 ![alt text][image4]
 
@@ -198,7 +209,7 @@ After we obtain this rotation we can apply the following formulas.
 
 ![alt text][image6]
 
-However in the IK_server.py we use the code below from the tf library which calculate these formulas for us.
+* However in the IK_server.py we use the code below from the tf library which calculate these formulas for us.
 
 ```python
 alpha, beta, gamma = tf.transformations.euler_from_matrix(np.array(R3_6).astype(np.float64), "ryzy")
