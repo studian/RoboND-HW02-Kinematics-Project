@@ -10,6 +10,12 @@
 [image8]: ./results/imageedit_2_8171765159.jpg
 [image9]: ./results/eq1.png
 
+[image10]: ./results/inverse_kinematics.launch.JPG
+[image11]: ./results/target_description.launch.JPG
+[image12]: ./results/init_v.JPG
+[image13]: ./results/Init_Variables.JPG
+
+
 # Robotic arm - Pick & Place
 
 Make sure you are using robo-nd VM or have Ubuntu+ROS installed locally.
@@ -38,6 +44,7 @@ The project has a demo mode which shows the proper beahavior of the arm.
 For demo mode make sure the **demo** flag is set to _"true"_ in `inverse_kinematics.launch` file under /RoboND-Kinematics-Project/kuka_arm/launch
 
 In addition, you can also control the spawn location of the target object in the shelf. To do this, modify the **spawn_location** argument in `target_description.launch` file under /RoboND-Kinematics-Project/kuka_arm/launch. 0-9 are valid values for spawn_location with 0 being random mode.
+![alt text][image11]
 
 You can launch the project by
 ```sh
@@ -45,7 +52,9 @@ $ cd ~/catkin_ws/src/RoboND-Kinematics-Project/kuka_arm/scripts
 $ ./safe_spawner.sh
 ```
 
-If you are running in demo mode, this is all you need. To run your own Inverse Kinematics code change the **demo** flag described above to _"false"_ and run your code (once the project has successfully loaded) by:
+If you are running in demo mode, this is all you need. To run your own Inverse Kinematics code change the **demo** flag described above to _"false"_ 
+![alt text][image10]
+and run your code (once the project has successfully loaded) by:
 ```sh
 $ cd ~/catkin_ws/src/RoboND-Kinematics-Project/kuka_arm/scripts
 $ rosrun kuka_arm IK_server.py
