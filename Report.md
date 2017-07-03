@@ -7,7 +7,7 @@
 [image5]: ./results/codecogseqn-3.gif
 [image6]: ./results/codecogseqn-2.gif
 [image7]: ./results/pasted_image_at_2017_07_02_10_21_pm.png
-[image8]: ./results/imageedit_2_8171765159.jpg
+[image8]: ./results/DH_config.jpg
 [image9]: ./results/eq1.png
 
 [image10]: ./results/inverse_kinematics.launch.JPG
