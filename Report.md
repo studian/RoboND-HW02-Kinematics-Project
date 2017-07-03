@@ -226,6 +226,6 @@ alpha, beta, gamma = tf.transformations.euler_from_matrix(np.array(R3_6).astype(
 ## Problems encountered and Outlook
 * I am new for Linux VM and ROS, this project is quite interesting.
 	- First of all, I will try to real machine, but I cannot open the same environment of the simulation of VM machine.
-	![alt text][image10]
+	![alt text][image15]
 * Sometimes, I cannot grap the object, I don't know why it happend.
 * The IK calculating speed is quite slow using current method. 
