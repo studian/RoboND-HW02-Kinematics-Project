@@ -128,7 +128,7 @@ T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
 
 * Note that it is a simple multiplication of the matrices going from each link from the base to the gripper (the end-effector)
 
-* Also note that this matrices are calculated in a functions called `setupvariables()` they are then called on the function `IK_server` which is called whenever the program runs. 
+* Also note that this matrices are calculated in a functions called `Init_Variables()` they are then called on the function `IK_server` which is called whenever the program runs. 
 * This is done to increase performance as the program was building the transformation matrices every run of the main loop.
 
 ## Calculating the joint angles
@@ -214,3 +214,5 @@ theta2=atan2(S1,C1)
 ```python
 alpha, beta, gamma = tf.transformations.euler_from_matrix(np.array(R3_6).astype(np.float64), "ryzy")
 ```
+
+* Here's a [link to my video result](./results/RoboND-Kinematics-Project-Result(10x_encoding).avi)
