@@ -26,14 +26,14 @@
 
 ---
 
-# Robotic arm - Pick & Place
+# 1. Robotic arm - Pick & Place
 
 * Make sure you are using robo-nd VM or have Ubuntu+ROS installed locally.
 
 ---
 
 
-### One time Gazebo setup step:
+### 1.1 One time Gazebo setup step:
 * Check the version of gazebo installed on your system using a terminal:
 ```sh
 $ gazebo --version
@@ -51,7 +51,7 @@ $ sudo apt-get install gazebo7
 ```sh
 $ gazebo --version
 ```
-### For the rest of this setup, catkin_ws is the name of active ROS Workspace, if your workspace name is different, change the commands accordingly
+### 1.2 For the rest of this setup, catkin_ws is the name of active ROS Workspace, if your workspace name is different, change the commands accordingly
 * The project has a demo mode which shows the proper beahavior of the arm.
 
 * For demo mode make sure the **demo** flag is set to _"true"_ in `inverse_kinematics.launch` file under /RoboND-Kinematics-Project/kuka_arm/launch
@@ -95,16 +95,11 @@ $ rosrun kuka_arm IK_server.py
 ---
 
 
-# Robotic arm - Pick & Place : Reports
+# 2. Robotic arm - Pick & Place : Reports
 
 ---
 
-## Inverse Kinematics analysis 
-
----
-
-### Kinematic Analysis
-### Building the Transform matrices 
+## 2.1 Building the Transform matrices 
 * The first step was to create a DH parameters table, the DH parameters table will help us in building the matrices to calculate the individual transforms between the links. 
 * The DH parameters table is shown below, the diagram used to calculate the DH paramters is shown below the table:
 
@@ -147,13 +142,13 @@ T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
 
 ---
 
-### Calculating the joint angles
+## 2.2 Calculating the joint angles
 * An inverse kinematic problem can be divided into two, 
 	- the first part is determining the postion of the end-effector this is done by simply calculating the angles for every joint **before** the wrist, 
 	- and the orientation problem which is solved by calculating the angles for every joint **after** the wrist
 * The wrist was determined to be in link 3 as joints 4, 5 and 6 are what give the enf-effector its orientation.
 
-### All process of calculating the joint angles
+## 2.3 All process of calculating the joint angles
 * Pre-process step
 	- Initialize joint angles variables
 	- Extract end-effector position and orientation from request
@@ -188,7 +183,7 @@ T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
 
 ---
 
-### Inverse Position Kinematic Problem
+## 2.4 Inverse Position Kinematic Problem
 * As mentioned before to solve for the position I would need to find the angles for joints 1, 2 and 3. 
 * Luckily the end-effector position and orientation are known. 
 * Given these parameters, teh calculation of the wrist center and its x,y and z coordinates becomes trivial, and all that must be done is perform the calculations shown below
@@ -250,7 +245,7 @@ theta2=atan2(S1,C1)
 
 ---
 
-### Inverse Orientation Kinematics
+## 2.5 Inverse Orientation Kinematics
 * To solve for the orientation of the end-effector I needto calculate the rotation between link 0 and link 6. 
 * This rotation is nothing more than the rotation from the base link to link 3 multiplied with the Rrpy that I calculated earlier.
 
@@ -270,14 +265,14 @@ alpha, beta, gamma = tf.transformations.euler_from_matrix(np.array(R3_6).astype(
 
 ---
 
-### Robotic arm - Pick & Place : Demo
+# 3. Robotic arm - Pick & Place : Demo
 ![alt text][image14]
 * Here's a [link to my video result](./results/RoboND-Kinematics-Project-Result(10x_encoding).avi)
 
 ---
 
-# Discussion
-## Problems encountered and Outlook
+# 4. Discussion
+## 4.1 Problems encountered and Outlook
 * I am new for Linux VM and ROS, this project is quite interesting.
 	- First of all, I will try to real machine, but I cannot open the same environment of the simulation of VM machine.
 	![alt text][image15]
