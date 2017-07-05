@@ -7,6 +7,11 @@
 [image14]: ./results/sll_step.jpg
 [image15]: ./results/ros_error.png
 
+[image0]: ./results/1pre.JPG
+[image1]: ./results/first_joint.JPG
+[image2]: ./results/joint(2-3).JPG
+[image3]: ./results/joint(4-6).JPG
+
 [image4]: ./results/image-1.png
 [image5]: ./results/codecogseqn-3.gif
 [image6]: ./results/codecogseqn-2.gif
