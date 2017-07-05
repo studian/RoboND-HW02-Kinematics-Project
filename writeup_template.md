@@ -7,10 +7,12 @@
 [image14]: ./results/sll_step.jpg
 [image15]: ./results/ros_error.png
 
+[image16]: ./results/Global_v.JPG
 [image0]: ./results/1pre.JPG
 [image1]: ./results/first_joint.JPG
 [image2]: ./results/joint(2-3).JPG
 [image3]: ./results/joint(4-6).JPG
+
 
 [image4]: ./results/image-1.png
 [image5]: ./results/codecogseqn-3.gif
@@ -113,6 +115,8 @@ Joint | alpha | a | d | theta
 Gripper | 0 | 0 | 0.303| 0
 
 ![alt text][image8]
+
+![alt text][image16]
 
 * Using this table I was able to construct the individual transform matrices, which are shown below:
 
