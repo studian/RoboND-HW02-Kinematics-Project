@@ -153,9 +153,37 @@ T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
 	- and the orientation problem which is solved by calculating the angles for every joint **after** the wrist
 * The wrist was determined to be in link 3 as joints 4, 5 and 6 are what give the enf-effector its orientation.
 
+### All process of calculating the joint angles
+* Pre-process step
+	- Initialize joint angles variables
+	- Extract end-effector position and orientation from request
+	- px,py,pz are the end-effector coordinates
+	- roll, pitch, yaw = are the end-effector orientation
+	- Given the orientation for the end -affector we can calculate its final rotation    
+	- With the orientation matrix and the coordinates point of the end-effector we calculate its wrist center 
 ![alt text][image0]
+
+* Caculate step of joint angle (# 1)
+	- I have to account for the extra angle caused by the revolute joints 
+	- Finding the distance from the origin to the wrist center
 ![alt text][image1]
+
+* Caculate step of joint angle (# 2 & 3)
+	- Define the lengths of the segments we are using for theta2 & 3.
+	- They are also found in the DH parameter table
+	- Set the first angle to zero and transpose the secong joint to the origin.
+	- Third joint angle Calculate using the cosine law
+	- To prevent imaginary numbers caused from negative values we set the hypothenuse to one in such case.
+	- Calculations for the second joint angle.
+	- Third and second joint angle needs to be translated by 90 degrees for correct rotation	
 ![alt text][image2]
+
+* Caculate step of joint angle (# 4 & 5 & 6)
+	- Calculations for joint angles 4, 5 and 6
+	- R0_3 is the rotation matrix of the wrist
+	- Applied rotation correction to the rotation matrix 
+	- Used the included function in the tf library, instead of writing individual formulas
+	- Equal the found angles to their respective joint angles
 ![alt text][image3]
 
 ---
