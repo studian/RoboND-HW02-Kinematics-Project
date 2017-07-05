@@ -143,6 +143,11 @@ T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
 	- and the orientation problem which is solved by calculating the angles for every joint **after** the wrist
 * The wrist was determined to be in link 3 as joints 4, 5 and 6 are what give the enf-effector its orientation.
 
+![alt text][image0]
+![alt text][image1]
+![alt text][image2]
+![alt text][image3]
+
 ### Inverse Position Kinematic Problem
 * As mentioned before to solve for the position I would need to find the angles for joints 1, 2 and 3. 
 * Luckily the end-effector position and orientation are known. 
