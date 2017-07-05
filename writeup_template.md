@@ -109,11 +109,11 @@ Gripper | 0 | 0 | 0.303| 0
 
 ![alt text][image8]
 
-* Using this table we were able to construct the individual transform matrices, which are shown below:
+* Using this table I was able to construct the individual transform matrices, which are shown below:
 
 ![alt text][image13]
 
-* Then, using them we can calculate the total transform between the base link and the end-effector which is denoted by the variable T0_7 and is shown below.
+* Then, using them I can calculate the total transform between the base link and the end-effector which is denoted by the variable T0_7 and is shown below.
 
 ```python
 T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
@@ -139,7 +139,7 @@ T0_7 = ((((((T0_1 * T1_2) * T2_3) * T3_4) * T4_5) * T5_6) * T6_7)
 * The wrist was determined to be in link 3 as joints 4, 5 and 6 are what give the enf-effector its orientation.
 
 ### Inverse Position Kinematic Problem
-* As mentioned before to solve for the position we would need to find the angles for joints 1, 2 and 3. 
+* As mentioned before to solve for the position I would need to find the angles for joints 1, 2 and 3. 
 * Luckily the end-effector position and orientation are known. 
 * Given these parameters, teh calculation of the wrist center and its x,y and z coordinates becomes trivial, and all that must be done is perform the calculations shown below
 
@@ -152,17 +152,17 @@ pz = req.poses[x].position.z
     [req.poses[x].orientation.x, req.poses[x].orientation.y,
         req.poses[x].orientation.z, req.poses[x].orientation.w])
 
-# Given the orientation for the end -affector we can calculate its final rotation    
+# Given the orientation for the end -affector I can calculate its final rotation    
 Rrpy = (R_x * R_y * R_z).evalf(subs={rollsym:roll,pitchsym:pitch,yawsym:yaw})
 
-# With the orientation matrix and the coordinates point of the end-effector we calculate its wrist center 
+# With the orientation matrix and the coordinates point of the end-effector I calculate its wrist center 
 wx = (px - (d6 + d7) * Rrpy[0,0]).subs(s)
 wy = (py - (d6 + d7) * Rrpy[1,0]).subs(s)
 wz = (pz - (d6 + d7) * Rrpy[2,0]).subs(s)
 ```
 
 * Where `Rrpy` is calculated by performing a rotation matrix along each axis by the given roll, pitch and yawn angles, and `d6` is the length between the end-effector and link 3. 
-* Now that we know the wrist coordinates we can start calculating the angles. 
+* Now that I know the wrist coordinates I can start calculating the angles. 
 * To calculate the angles geometry was heavily used, to better understand how the angles were positioned the diagram below was used
 
 ![alt text][image7]
@@ -172,8 +172,8 @@ wz = (pz - (d6 + d7) * Rrpy[2,0]).subs(s)
 * The first angle to be calculated is theta 1 which as shown in the figure below is nothing more than the arctan of the y and x coordinates of the wrist.
 
 * Joint angles 2 and 3 are far trickier. 
-* To calculate the angle of joint 3 we have to acount for the extra angle caused by the second joint which creates and extra angle. 
-* However, we can easily calculate the extra angle and the new x and z coordinates of the wrist using the equations below
+* To calculate the angle of joint 3, I have to acount for the extra angle caused by the second joint which creates and extra angle. 
+* However, I can easily calculate the extra angle and the new x and z coordinates of the wrist using the equations below
 
 ```python
 xtraangle = atan2(wz-1.94645, wx)
@@ -183,14 +183,14 @@ wxdist = sqrt(wy*wy+wx*wx)
 ```
 
 * The last line calculates the distance between the wrist center and the new origin. 
-* Then using cosine law we find D and with D calculate the third joint angle.
+* Then using cosine law, I find D and with D calculate the third joint angle.
 
 ```python
 D=(wxdist*wxdist + wzdist*wzdist - l1*l1-l2*l2)/(2*l1*l2)
 theta3 = atan2(-sqrt(1-D*D),D
 ```
 
-* With the third joint angle we can then calculate the second joint angle given by
+* With the third joint angle I can then calculate the second joint angle given by
 
 ```python
 S1=((l1+l2*cos(theta3))*wzdist-l2*sin(theta3)*wxdist) / (wxdist*wxdist + wzdist*wzdist)
@@ -199,10 +199,10 @@ theta2=atan2(S1,C1)
 ```
 
 ### Inverse Orientation Kinematics
-* To solve for the orientation of the end-effector we needto calculate the rotation between link 0 and link 6. 
-* This rotation is nothing more than the rotation from the base link to link 3 multiplied with the Rrpy that we calculated earlier.
+* To solve for the orientation of the end-effector I needto calculate the rotation between link 0 and link 6. 
+* This rotation is nothing more than the rotation from the base link to link 3 multiplied with the Rrpy that I calculated earlier.
 
-* After we obtain this rotation we can apply the following formulas.
+* After I obtain this rotation, I can apply the following formulas.
 
 ![alt text][image4]
 
@@ -210,7 +210,7 @@ theta2=atan2(S1,C1)
 
 ![alt text][image6]
 
-* However in the IK_server.py we use the code below from the tf library which calculate these formulas for us.
+* However in the IK_server.py I use the code below from the tf library which calculate these formulas for us.
 
 ```python
 alpha, beta, gamma = tf.transformations.euler_from_matrix(np.array(R3_6).astype(np.float64), "ryzy")
